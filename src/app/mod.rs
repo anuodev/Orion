@@ -1,0 +1,26 @@
+mod systems;
+
+use bevy::prelude::*;
+use crate::events::GameOver;
+use super::app::systems::*;
+
+pub struct AppPlugin;
+impl Plugin for AppPlugin {
+    fn build(&self, app: &mut App) {
+        app.init_state::<AppState>();
+        app.add_event::<GameOver>();
+        app.add_systems(Startup, spawn_camera);
+        app.add_systems(Startup, set_background);
+        app.add_systems(Update, exit_game);
+        app.add_systems(Update, handle_game_over);
+        app.add_systems(Update, display_score);
+    }
+}
+
+#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
+pub enum AppState {
+    #[default]
+    MainMenu,
+    InGame,
+    GameOver
+}
