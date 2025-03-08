@@ -1,7 +1,7 @@
+use super::resources::IconHandle;
 use crate::config::{APP_BACKGROUND, APP_ICON};
 use crate::events::GameOver;
 use crate::game::score::resources::Score;
-use super::resources::IconHandle;
 use bevy::app::AppExit;
 use bevy::math::vec3;
 use bevy::prelude::*;
@@ -20,13 +20,20 @@ pub fn set_window_icon(
     images: Res<Assets<Image>>,
     icon_handle: Option<Res<IconHandle>>,
 ) {
-    let Some(icon_handle) = icon_handle else { return; };
-    let Some(image) = images.get(&icon_handle.0) else { return; };
+    let Some(icon_handle) = icon_handle else {
+        return;
+    };
+    let Some(image) = images.get(&icon_handle.0) else {
+        return;
+    };
 
     let primary_window_entity = primary_window.single();
     let primary = windows.get_window(primary_window_entity).unwrap();
 
-    let (width, height) = (image.texture_descriptor.size.width, image.texture_descriptor.size.height);
+    let (width, height) = (
+        image.texture_descriptor.size.width,
+        image.texture_descriptor.size.height,
+    );
     let raw = image.data.clone();
 
     if let Ok(icon) = Icon::from_rgba(raw, width, height) {

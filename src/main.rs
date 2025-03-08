@@ -12,7 +12,7 @@ fn main() {
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
                 title: "Orion".to_string(),
-                present_mode: PresentMode::AutoNoVsync, 
+                present_mode: PresentMode::AutoNoVsync,
                 fit_canvas_to_parent: true,
                 resizable: true,
                 ..default()

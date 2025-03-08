@@ -1,5 +1,5 @@
-mod systems;
 pub mod resources;
+mod systems;
 
 use super::app::systems::*;
 use crate::events::GameOver;
@@ -22,8 +22,8 @@ impl Plugin for AppPlugin {
 
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum AppState {
-    #[default]
     MainMenu,
-    InGame,
+    #[default]
+    Game,
     GameOver,
 }

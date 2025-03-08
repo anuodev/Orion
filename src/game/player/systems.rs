@@ -4,7 +4,7 @@ use crate::game::laser::systems::spawn_laser;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
-pub fn spawn_player(
+pub fn player_spawn(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
@@ -64,7 +64,7 @@ pub fn player_movement_bound(
     }
 }
 
-pub fn player_shooting(
+pub fn player_shoot_laser(
     mut commands: Commands,
     keyboard_input: Res<ButtonInput<KeyCode>>,
     player_query: Query<&Transform, With<Player>>,
@@ -73,6 +73,10 @@ pub fn player_shooting(
     if let Ok(transform) = player_query.get_single() {
         if keyboard_input.just_pressed(KeyCode::Space) {
             spawn_laser(&mut commands, transform, &asset_server);
+            commands.spawn((
+                AudioPlayer::new(asset_server.load(SFX_PLAYER_SHOOT_LASER)),
+                PlaybackSettings::ONCE,
+            ));
         }
     }
 }

@@ -7,7 +7,11 @@ use crate::game::score::resources::Score;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
-pub fn spawn_laser(commands: &mut Commands, player_transform: &Transform, asset_server: &AssetServer) {
+pub fn spawn_laser(
+    commands: &mut Commands,
+    player_transform: &Transform,
+    asset_server: &AssetServer,
+) {
     commands.spawn((
         Transform {
             translation: player_transform.translation,
