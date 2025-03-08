@@ -10,6 +10,7 @@ impl Plugin for AppPlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<AppState>();
         app.add_event::<GameOver>();
+        app.add_systems(Startup, spawn_perfui);
         app.add_systems(Startup, load_icon);
         app.add_systems(Startup, spawn_camera);
         app.add_systems(Update, set_window_icon.after(load_icon));

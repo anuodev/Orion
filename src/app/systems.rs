@@ -7,6 +7,7 @@ use bevy::math::vec3;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use bevy::winit::WinitWindows;
+use iyes_perf_ui::prelude::PerfUiAllEntries;
 use winit::window::Icon;
 
 pub fn load_icon(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -91,4 +92,8 @@ pub fn display_score(score: Res<Score>) {
     if score.is_changed() {
         println!("Score: {}", score.value.to_string());
     }
+}
+
+pub fn spawn_perfui(mut commands: Commands) {
+    commands.spawn(PerfUiAllEntries::default());
 }
