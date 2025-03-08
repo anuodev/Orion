@@ -7,11 +7,7 @@ use crate::game::score::resources::Score;
 use crate::game::ui::hud::components::ScoreText;
 
 pub fn hud_spawn(mut commands: Commands, asset_server: Res<AssetServer>) {
-    build_hud(&mut commands, &asset_server);
-}
-
-pub fn build_hud(commands: &mut Commands, asset_server: &Res<AssetServer>) -> Entity {
-    let hud_entity = commands
+    commands
         .spawn((
             Node {
                 display: Display::Flex,
@@ -48,10 +44,7 @@ pub fn build_hud(commands: &mut Commands, asset_server: &Res<AssetServer>) -> En
                         ScoreText {},
                     ));
                 });
-        })
-        .id();
-
-    hud_entity
+        });
 }
 
 pub fn despawn_hud(mut commands: Commands, hud_query: Query<Entity, With<HUD>>) {

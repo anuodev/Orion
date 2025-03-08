@@ -22,8 +22,6 @@ impl Plugin for AppPlugin {
 
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum AppState {
-    MainMenu,
     #[default]
-    Game,
-    GameOver,
+    Game
 }
