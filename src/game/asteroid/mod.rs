@@ -3,8 +3,8 @@ pub mod resources;
 mod systems;
 
 use bevy::prelude::*;
-use systems::*;
 use resources::AsteroidSpawnTimer;
+use systems::*;
 
 pub struct AsteroidPlugin;
 impl Plugin for AsteroidPlugin {

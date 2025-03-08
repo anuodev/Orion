@@ -1,16 +1,20 @@
+use crate::config::APP_BACKGROUND;
+use crate::events::GameOver;
+use crate::game::score::resources::Score;
+use bevy::app::AppExit;
 use bevy::math::vec3;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
-use bevy::app::AppExit;
-use crate::events::GameOver;
-use crate::game::score::resources::Score;
-use crate::config::APP_BACKGROUND;
 
-pub fn set_background(mut commands: Commands, window_query: Query<&Window, With<PrimaryWindow>>, asset_server: Res<AssetServer>) {
+pub fn set_background(
+    mut commands: Commands,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    asset_server: Res<AssetServer>,
+) {
     let window = window_query.get_single().unwrap();
     commands.spawn((
         Transform {
-            translation: Vec3::new(window.width()/2.0, window.height()/2.0, -1.0),
+            translation: Vec3::new(window.width() / 2.0, window.height() / 2.0, -1.0),
             ..default()
         },
         Sprite {
@@ -25,17 +29,17 @@ pub fn spawn_camera(mut commands: Commands, window_query: Query<&Window, With<Pr
     let window = window_query.get_single().unwrap();
     commands.spawn((
         Transform {
-            translation: vec3(window.width()/2.0, window.height()/2.0, 0.0),
+            translation: vec3(window.width() / 2.0, window.height() / 2.0, 0.0),
             ..default()
         },
-        Camera2d {
-            ..default()
-        },
+        Camera2d { ..default() },
     ));
 }
 
-pub fn exit_game(keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut app_exit_event_writer: EventWriter<AppExit>) {
+pub fn exit_game(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    mut app_exit_event_writer: EventWriter<AppExit>,
+) {
     if keyboard_input.just_pressed(KeyCode::Escape) {
         app_exit_event_writer.send(AppExit::Success);
     }

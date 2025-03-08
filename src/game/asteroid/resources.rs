@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use crate::config::*;
+use bevy::prelude::*;
 
 #[derive(Resource)]
 pub struct AsteroidSpawnTimer {
@@ -8,6 +8,8 @@ pub struct AsteroidSpawnTimer {
 
 impl Default for AsteroidSpawnTimer {
     fn default() -> AsteroidSpawnTimer {
-        AsteroidSpawnTimer { timer: Timer::from_seconds(WORLD_ASTEROID_SPAWNTIME, TimerMode::Repeating)}      
+        AsteroidSpawnTimer {
+            timer: Timer::from_seconds(WORLD_ASTEROID_SPAWNTIME, TimerMode::Repeating),
+        }
     }
 }

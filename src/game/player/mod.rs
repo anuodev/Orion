@@ -1,8 +1,8 @@
 pub mod components;
 mod systems;
 
-use bevy::prelude::*;
 use super::player::systems::*;
+use bevy::prelude::*;
 
 pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {

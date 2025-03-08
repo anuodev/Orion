@@ -1,8 +1,8 @@
 mod systems;
 
-use bevy::prelude::*;
-use crate::events::GameOver;
 use super::app::systems::*;
+use crate::events::GameOver;
+use bevy::prelude::*;
 
 pub struct AppPlugin;
 impl Plugin for AppPlugin {
@@ -22,5 +22,5 @@ pub enum AppState {
     #[default]
     MainMenu,
     InGame,
-    GameOver
+    GameOver,
 }

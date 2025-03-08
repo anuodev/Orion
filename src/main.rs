@@ -1,7 +1,7 @@
-mod game;
-mod events;
-mod config;
 mod app;
+mod config;
+mod events;
+mod game;
 mod main_menu;
 
 use bevy::prelude::*;

@@ -1,8 +1,8 @@
 pub mod components;
 mod systems;
 
-use bevy::prelude::*;
 use super::laser::systems::*;
+use bevy::prelude::*;
 
 pub struct LaserPlugin;
 impl Plugin for LaserPlugin {
