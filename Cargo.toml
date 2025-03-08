@@ -5,5 +5,10 @@ edition = "2021"
 
 [dependencies]
 bevy = "0.15.3"
-log = "0.4.26"
-rand = "0.9.0"
+image = "0.25.5"
+rand = { version = "0.8", features = ["std"] }
+winit = "0.30.9"
+
+[dependencies.getrandom]
+version = "0.2"
+features = ["js"]

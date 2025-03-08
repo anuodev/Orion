@@ -16,3 +16,4 @@ pub const SFX_GAMEOVER: &str = "audio/sfx_lose.ogg";
 pub const SFX_ASTEROID_DESTROYED: &str = "audio/sfx_twoTone.ogg";
 
 pub const APP_BACKGROUND: &str = "sprites/Backgrounds/blue.png";
+pub const APP_ICON: &str = "sprites/Lasers/laserBlue08.png";

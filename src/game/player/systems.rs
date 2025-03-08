@@ -1,6 +1,6 @@
 use super::components::Player;
 use crate::config::*;
-use crate::game::laser::components::Laser;
+use crate::game::laser::systems::spawn_laser;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
@@ -64,24 +64,6 @@ pub fn player_movement_bound(
     }
 }
 
-fn spawn_laser(commands: &mut Commands, player_transform: &Transform, asset_server: &AssetServer) {
-    commands.spawn((
-        Transform {
-            translation: player_transform.translation,
-            ..default()
-        },
-        Sprite {
-            image: asset_server.load(LASER_SPRITE),
-            ..default()
-        },
-        Laser {
-            speed: LASER_SPEED,
-            direction: Vec3::new(0.0, 1.0, 0.0),
-            ..default()
-        },
-    ));
-}
-
 pub fn player_shooting(
     mut commands: Commands,
     keyboard_input: Res<ButtonInput<KeyCode>>,
@@ -92,12 +74,5 @@ pub fn player_shooting(
         if keyboard_input.just_pressed(KeyCode::Space) {
             spawn_laser(&mut commands, transform, &asset_server);
         }
-    }
-}
-
-pub fn laser_movement(mut laser_query: Query<(&mut Transform, &Laser)>, time: Res<Time>) {
-    for (mut transform, laser) in laser_query.iter_mut() {
-        let direction = Vec3::new(laser.direction.x, laser.direction.y, 0.0);
-        transform.translation += direction * laser.speed * time.delta_secs();
     }
 }

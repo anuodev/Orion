@@ -1,5 +1,5 @@
 pub mod components;
-mod systems;
+pub mod systems;
 
 use super::laser::systems::*;
 use bevy::prelude::*;
