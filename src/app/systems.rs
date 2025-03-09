@@ -1,11 +1,12 @@
 use super::resources::IconHandle;
+use super::components::Background;
 use crate::config::{APP_BACKGROUND, APP_ICON};
 use crate::events::GameOver;
 use crate::game::score::resources::Score;
 use bevy::app::AppExit;
 use bevy::math::vec3;
 use bevy::prelude::*;
-use bevy::window::PrimaryWindow;
+use bevy::window::{PrimaryWindow, WindowResized};
 use bevy::winit::WinitWindows;
 use iyes_perf_ui::prelude::PerfUiAllEntries;
 use winit::window::Icon;
@@ -50,8 +51,7 @@ pub fn set_background(
     let window = window_query.get_single().unwrap();
     commands.spawn((
         Transform {
-            translation: Vec3::new(window.width() / 2.0, window.height() / 2.0, -1.0),
-            //translation: Vec3::new(0.0,0.0, -1.0),
+            translation: Vec3::new(0.0,0.0, -1.0),
             ..default()
         },
         Sprite {
@@ -59,16 +59,26 @@ pub fn set_background(
             custom_size: Option::from(window.size()),
             ..default()
         },
+        Background {},
     ));
 }
 
-pub fn spawn_camera(mut commands: Commands, window_query: Query<&Window, With<PrimaryWindow>>) {
+pub fn update_background_on_resize(
+    mut resize_events: EventReader<WindowResized>,
+    mut background_query: Query<&mut Sprite, With<Background>>,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+) {
     let window = window_query.get_single().unwrap();
+    for _ in resize_events.read() {
+        if let Ok(mut sprite) = background_query.get_single_mut() {
+            sprite.custom_size = Some(window.size());
+            println!("Updated background size to: {}x{}", window.width(), window.height());
+        }
+    }
+}
+
+pub fn spawn_camera(mut commands: Commands) {
     commands.spawn((
-        Transform {
-            translation: vec3(window.width() / 2.0, window.height() / 2.0, 0.0),
-            ..default()
-        },
         Camera2d { ..default() },
     ));
 }

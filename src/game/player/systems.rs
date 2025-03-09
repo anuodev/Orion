@@ -6,13 +6,10 @@ use bevy::window::PrimaryWindow;
 
 pub fn player_spawn(
     mut commands: Commands,
-    window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
 ) {
-    let window = window_query.get_single().unwrap();
     commands.spawn((
         Transform {
-            translation: Vec3::new(window.width() / 2.0, window.height() / 2.0, 0.0),
             ..default()
         },
         Sprite {
@@ -53,10 +50,14 @@ pub fn player_movement_bound(
         let window = window_query.get_single().unwrap();
         let half_player_size = PLAYER_SIZE / 2.0;
 
-        let min_vec = Vec3::new(half_player_size, half_player_size, 0.0);
+        let min_vec = Vec3::new(            
+            window.width() / 2.0 * -1.0 + half_player_size,
+            window.height() / 2.0 * -1.0 + half_player_size,
+            0.0,
+        );
         let max_vec = Vec3::new(
-            window.width() - half_player_size,
-            window.height() - half_player_size,
+            window.width() / 2.0 - half_player_size,
+            window.height() / 2.0 - half_player_size,
             0.0,
         );
 

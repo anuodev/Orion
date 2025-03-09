@@ -5,12 +5,13 @@ use crate::events::GameOver;
 use crate::game::player::components::Player;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
-use rand::random;
+use rand::Rng;
 
 fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &AssetServer) {
+    let mut rng = rand::thread_rng();
     commands.spawn((
         Transform {
-            translation: Vec3::new(random::<f32>() * window.width(), window.height(), 0.0),
+            translation: Vec3::new(rng.gen_range(-1.0..=1.0) * window.width(), window.height(), 0.0),
             ..default()
         },
         Sprite {
@@ -89,9 +90,12 @@ pub fn asteroid_collision(
 pub fn asteroid_lifetime(
     mut commands: Commands,
     asteroid_query: Query<(Entity, &Transform), With<Asteroid>>,
+    camera_query: Query<&OrthographicProjection, With<Camera2d>>,
 ) {
+    let camera = camera_query.single();
+
     for (asteroid_entity, asteroid_transform) in asteroid_query.iter() {
-        if asteroid_transform.translation.y < 0.0 {
+        if asteroid_transform.translation.y < camera.area.height() / 2.0 * -1.0 {
             commands.entity(asteroid_entity).despawn();
             println!("Asteroid {:?} despawned!", asteroid_entity);
         }
