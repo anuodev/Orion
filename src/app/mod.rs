@@ -1,10 +1,10 @@
-pub mod resources;
 mod components;
+pub mod resources;
 mod systems;
 
 use super::app::systems::*;
 use crate::events::GameOver;
-use bevy::{prelude::*, ui::update};
+use bevy::prelude::*;
 
 pub struct AppPlugin;
 impl Plugin for AppPlugin {
@@ -26,5 +26,5 @@ impl Plugin for AppPlugin {
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum AppState {
     #[default]
-    Game
+    Game,
 }

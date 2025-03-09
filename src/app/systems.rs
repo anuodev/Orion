@@ -1,10 +1,9 @@
-use super::resources::IconHandle;
 use super::components::Background;
+use super::resources::IconHandle;
 use crate::config::{APP_BACKGROUND, APP_ICON};
 use crate::events::GameOver;
 use crate::game::score::resources::Score;
 use bevy::app::AppExit;
-use bevy::math::vec3;
 use bevy::prelude::*;
 use bevy::window::{PrimaryWindow, WindowResized};
 use bevy::winit::WinitWindows;
@@ -51,7 +50,7 @@ pub fn set_background(
     let window = window_query.get_single().unwrap();
     commands.spawn((
         Transform {
-            translation: Vec3::new(0.0,0.0, -1.0),
+            translation: Vec3::new(0.0, 0.0, -1.0),
             ..default()
         },
         Sprite {
@@ -72,15 +71,17 @@ pub fn update_background_on_resize(
     for _ in resize_events.read() {
         if let Ok(mut sprite) = background_query.get_single_mut() {
             sprite.custom_size = Some(window.size());
-            println!("Updated background size to: {}x{}", window.width(), window.height());
+            println!(
+                "Updated background size to: {}x{}",
+                window.width(),
+                window.height()
+            );
         }
     }
 }
 
 pub fn spawn_camera(mut commands: Commands) {
-    commands.spawn((
-        Camera2d { ..default() },
-    ));
+    commands.spawn((Camera2d { ..default() },));
 }
 
 pub fn exit_game(

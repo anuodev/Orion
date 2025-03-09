@@ -4,14 +4,9 @@ use crate::game::laser::systems::spawn_laser;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
-pub fn player_spawn(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-) {
+pub fn player_spawn(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
-        Transform {
-            ..default()
-        },
+        Transform { ..default() },
         Sprite {
             image: asset_server.load(PLAYER_SPRITE),
             ..default()
@@ -50,7 +45,7 @@ pub fn player_movement_bound(
         let window = window_query.get_single().unwrap();
         let half_player_size = PLAYER_SIZE / 2.0;
 
-        let min_vec = Vec3::new(            
+        let min_vec = Vec3::new(
             window.width() / 2.0 * -1.0 + half_player_size,
             window.height() / 2.0 * -1.0 + half_player_size,
             0.0,

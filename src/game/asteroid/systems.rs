@@ -11,7 +11,11 @@ fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &Asset
     let mut rng = rand::thread_rng();
     commands.spawn((
         Transform {
-            translation: Vec3::new(rng.gen_range(-1.0..=1.0) * window.width(), window.height(), 0.0),
+            translation: Vec3::new(
+                rng.gen_range(-1.0..=1.0) * window.width(),
+                window.height(),
+                0.0,
+            ),
             ..default()
         },
         Sprite {
