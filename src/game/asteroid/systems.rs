@@ -12,7 +12,7 @@ pub fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &A
     commands.spawn((
         Transform {
             translation: Vec3::new(
-                rng.gen_range(-0.9..=0.9) * window.width(),
+                rng.gen_range(-0.9..=0.9) * window.width() * 0.9,
                 window.height(),
                 0.0,
             ),

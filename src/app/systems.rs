@@ -11,7 +11,7 @@ use bevy::winit::WinitWindows;
 use winit::window::Icon;
 
 pub fn load_icon(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let icon_handle = asset_server.load(APP_ICON); // Make sure this is in "assets/"
+    let icon_handle = asset_server.load(APP_ICON);
     commands.insert_resource(IconHandle(icon_handle));
 }
 
