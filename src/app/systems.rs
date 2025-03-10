@@ -7,7 +7,7 @@ use bevy::app::AppExit;
 use bevy::prelude::*;
 use bevy::window::{PrimaryWindow, WindowResized};
 use bevy::winit::WinitWindows;
-use iyes_perf_ui::prelude::PerfUiAllEntries;
+//use iyes_perf_ui::prelude::PerfUiAllEntries;
 use winit::window::Icon;
 
 pub fn load_icon(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -37,7 +37,9 @@ pub fn set_window_icon(
     );
     let raw = image.data.clone();
 
-    let Ok(icon) = Icon::from_rgba(raw, width, height) else { return };
+    let Ok(icon) = Icon::from_rgba(raw, width, height) else {
+        return;
+    };
 
     primary.set_window_icon(Some(icon));
 }
@@ -69,9 +71,11 @@ pub fn update_background_on_resize(
 ) {
     let window = window_query.get_single().unwrap();
     for _ in resize_events.read() {
-        let Ok(mut sprite) = background_query.get_single_mut() else { return; };
+        let Ok(mut sprite) = background_query.get_single_mut() else {
+            return;
+        };
         sprite.custom_size = Some(window.size());
-        println!(
+        debug!(
             "Updated background size to: {}x{}",
             window.width(),
             window.height()
@@ -94,16 +98,16 @@ pub fn exit_game(
 
 pub fn handle_game_over(mut game_over_event_reader: EventReader<GameOver>) {
     for event in game_over_event_reader.read() {
-        println!("Game Over: {}", event.score.to_string());
+        info!("Game Over: {}", event.score.to_string());
     }
 }
 
 pub fn display_score(score: Res<Score>) {
     if score.is_changed() {
-        println!("Score: {}", score.value.to_string());
+        info!("Score: {}", score.value.to_string());
     }
 }
 
-pub fn spawn_perfui(mut commands: Commands) {
-    commands.spawn(PerfUiAllEntries::default());
-}
+// pub fn spawn_perfui(mut commands: Commands) {
+//     commands.spawn(PerfUiAllEntries::default());
+// }

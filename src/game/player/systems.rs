@@ -6,7 +6,10 @@ use bevy::window::PrimaryWindow;
 
 pub fn player_spawn(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
-        Transform { ..default() },
+        Transform {
+            scale: Vec3::new(0.5, 0.5, 1.0), 
+            ..default() 
+        },
         Sprite {
             image: asset_server.load(PLAYER_SPRITE),
             ..default()
@@ -20,7 +23,9 @@ pub fn player_movement(
     mut player_query: Query<&mut Transform, With<Player>>,
     time: Res<Time>,
 ) {
-    let Ok(mut transform) = player_query.get_single_mut() else { return; };
+    let Ok(mut transform) = player_query.get_single_mut() else {
+        return;
+    };
 
     let mut direction = Vec3::ZERO;
 
@@ -41,7 +46,9 @@ pub fn player_movement_bound(
     mut player_query: Query<&mut Transform, With<Player>>,
     window_query: Query<&Window, With<PrimaryWindow>>,
 ) {
-    let Ok(mut player_transform) = player_query.get_single_mut() else { return; };
+    let Ok(mut player_transform) = player_query.get_single_mut() else {
+        return;
+    };
 
     let window = window_query.get_single().unwrap();
     let half_player_size = PLAYER_SIZE / 2.0;
@@ -66,8 +73,10 @@ pub fn player_shoot_laser(
     player_query: Query<&Transform, With<Player>>,
     asset_server: Res<AssetServer>,
 ) {
-    let Ok(transform) = player_query.get_single() else { return; };
-    
+    let Ok(transform) = player_query.get_single() else {
+        return;
+    };
+
     if keyboard_input.just_pressed(KeyCode::Space) {
         spawn_laser(&mut commands, transform, &asset_server);
         commands.spawn((

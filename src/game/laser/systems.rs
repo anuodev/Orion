@@ -52,7 +52,7 @@ pub fn laser_collision(
             let asteroid_radius = ASTEROID_SIZE / 2.0;
 
             if distance < laser_radius + asteroid_radius {
-                println!("Asteroid destroyed by laser !");
+                debug!("Asteroid destroyed by laser !");
                 commands.spawn((
                     AudioPlayer::new(asset_server.load(SFX_ASTEROID_DESTROYED)),
                     PlaybackSettings::ONCE,
@@ -76,7 +76,7 @@ pub fn laser_lifetime(
     for (laser_entity, asteroid_transform) in laser_query.iter() {
         if asteroid_transform.translation.y > window.height().add(10.0) {
             commands.entity(laser_entity).despawn();
-            println!("Laser {:?} despawned!", laser_entity);
+            debug!("Laser {:?} despawned!", laser_entity);
         }
     }
 }

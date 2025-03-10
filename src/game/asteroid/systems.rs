@@ -2,6 +2,7 @@ use super::components::Asteroid;
 use crate::config::*;
 use crate::events::GameOver;
 use crate::game::player::components::Player;
+use crate::game::world::resources::WorldData;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use rand::Rng;
@@ -11,7 +12,7 @@ pub fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &A
     commands.spawn((
         Transform {
             translation: Vec3::new(
-                rng.gen_range(-0.95..=0.95) * window.width(),
+                rng.gen_range(-0.9..=0.9) * window.width(),
                 window.height(),
                 0.0,
             ),
@@ -41,10 +42,14 @@ pub fn asteroid_startup(
     );
 }
 
-pub fn asteroid_movement(mut asteroid_query: Query<(&mut Transform, &Asteroid)>, time: Res<Time>) {
+pub fn asteroid_movement(
+    mut asteroid_query: Query<(&mut Transform, &Asteroid)>,
+    time: Res<Time>,
+    world_data: Res<WorldData>,
+) {
     for (mut transform, asteroid) in asteroid_query.iter_mut() {
         let direction = Vec3::new(asteroid.direction.x, asteroid.direction.y, 0.0);
-        transform.translation += direction * ASTEROID_SPEED * time.delta_secs();
+        transform.translation += direction * world_data.asteroid_speed * time.delta_secs();
     }
 }
 
@@ -55,7 +60,9 @@ pub fn asteroid_collision(
     asteroid_query: Query<&Transform, With<Asteroid>>,
     asset_server: Res<AssetServer>,
 ) {
-    let Ok((player_entity, player_transform)) = player_query.get_single_mut() else { return; };
+    let Ok((player_entity, player_transform)) = player_query.get_single_mut() else {
+        return;
+    };
 
     for asteroid_transform in asteroid_query.iter() {
         let distance = player_transform
@@ -65,7 +72,7 @@ pub fn asteroid_collision(
         let asteroid_radius = ASTEROID_SIZE / 2.0;
 
         if distance < player_radius + asteroid_radius {
-            println!("Player hit !");
+            info!("Player hit !");
             commands.spawn((
                 AudioPlayer::new(asset_server.load(SFX_GAMEOVER)),
                 PlaybackSettings::ONCE,
@@ -86,7 +93,7 @@ pub fn asteroid_lifetime(
     for (asteroid_entity, asteroid_transform) in asteroid_query.iter() {
         if asteroid_transform.translation.y < camera.area.height() / 2.0 * -1.0 {
             commands.entity(asteroid_entity).despawn();
-            println!("Asteroid {:?} despawned!", asteroid_entity);
+            debug!("Asteroid {:?} despawned!", asteroid_entity);
         }
     }
 }
