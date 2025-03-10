@@ -14,7 +14,7 @@ pub fn spawn_laser(
 ) {
     commands.spawn((
         Transform {
-            translation: player_transform.translation,
+            translation: Vec3::new(player_transform.translation.x, player_transform.translation.y, LAYER_WORLD),
             ..default()
         },
         Sprite {
@@ -23,7 +23,7 @@ pub fn spawn_laser(
         },
         Laser {
             speed: LASER_SPEED,
-            direction: Vec3::new(0.0, 1.0, 0.0),
+            direction: Vec3::new(0.0, 1.0, LAYER_WORLD),
             ..default()
         },
     ));
@@ -31,7 +31,7 @@ pub fn spawn_laser(
 
 pub fn laser_movement(mut laser_query: Query<(&mut Transform, &Laser)>, time: Res<Time>) {
     for (mut transform, laser) in laser_query.iter_mut() {
-        let direction = Vec3::new(laser.direction.x, laser.direction.y, 0.0);
+        let direction = Vec3::new(laser.direction.x, laser.direction.y, laser.direction.z);
         transform.translation += direction * laser.speed * time.delta_secs();
     }
 }

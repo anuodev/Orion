@@ -1,6 +1,6 @@
 use super::components::Background;
 use super::resources::IconHandle;
-use crate::config::{APP_BACKGROUND, APP_ICON};
+use crate::config::*;
 use crate::events::GameOver;
 use crate::game::score::resources::Score;
 use bevy::app::AppExit;
@@ -52,7 +52,7 @@ pub fn set_background(
     let window = window_query.get_single().unwrap();
     commands.spawn((
         Transform {
-            translation: Vec3::new(0.0, 0.0, -1.0),
+            translation: Vec3::new(0.0, 0.0, LAYER_BACKGROUND),
             ..default()
         },
         Sprite {

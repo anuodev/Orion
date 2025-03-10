@@ -7,7 +7,7 @@ use bevy::window::PrimaryWindow;
 pub fn player_spawn(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
         Transform {
-            scale: Vec3::new(0.5, 0.5, 1.0), 
+            scale: Vec3::new(0.8, 0.8, LAYER_PLAYER), 
             ..default() 
         },
         Sprite {
@@ -28,6 +28,7 @@ pub fn player_movement(
     };
 
     let mut direction = Vec3::ZERO;
+    direction.z = LAYER_PLAYER;
 
     for key in keyboard_input.get_pressed() {
         match key {
@@ -56,12 +57,12 @@ pub fn player_movement_bound(
     let min_vec = Vec3::new(
         window.width() / 2.0 * -1.0 + half_player_size,
         window.height() / 2.0 * -1.0 + half_player_size,
-        0.0,
+        LAYER_PLAYER,
     );
     let max_vec = Vec3::new(
         window.width() / 2.0 - half_player_size,
         window.height() / 2.0 - half_player_size,
-        0.0,
+        LAYER_PLAYER,
     );
 
     player_transform.translation = player_transform.translation.clamp(min_vec, max_vec);

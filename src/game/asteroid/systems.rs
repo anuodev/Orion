@@ -14,7 +14,7 @@ pub fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &A
             translation: Vec3::new(
                 rng.gen_range(-0.9..=0.9) * window.width() * 0.9,
                 window.height(),
-                0.0,
+                LAYER_WORLD,
             ),
             rotation: Quat::from_rotation_z(rng.gen_range(0.0..=10.0)),
             ..default()
@@ -24,7 +24,7 @@ pub fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &A
             ..default()
         },
         Asteroid {
-            direction: Vec3::new(0.0, -1.0, 0.0),
+            direction: Vec3::new(0.0, -1.0, LAYER_WORLD),
             ..default()
         },
     ));
@@ -48,7 +48,7 @@ pub fn asteroid_movement(
     world_data: Res<WorldData>,
 ) {
     for (mut transform, asteroid) in asteroid_query.iter_mut() {
-        let direction = Vec3::new(asteroid.direction.x, asteroid.direction.y, 0.0);
+        let direction = Vec3::new(asteroid.direction.x, asteroid.direction.y, asteroid.direction.z);
         transform.translation += direction * world_data.asteroid_speed * time.delta_secs();
     }
 }

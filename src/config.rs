@@ -19,6 +19,10 @@ pub const SFX_GAMEOVER: &str = "audio/sfx_lose.ogg";
 pub const SFX_ASTEROID_DESTROYED: &str = "audio/sfx_twoTone.ogg";
 pub const SFX_PLAYER_SHOOT_LASER: &str = "audio/sfx_laser1.ogg";
 
+pub const LAYER_BACKGROUND: f32 = -1.0;
+pub const LAYER_WORLD: f32 = 0.0;
+pub const LAYER_PLAYER:f32 = 1.0;
+
 pub const APP_BACKGROUND: &str = "sprites/Backgrounds/blue.png";
 pub const APP_ICON: &str = "sprites/Lasers/laserBlue08.png";
 pub const APP_FONT: &str = "fonts/kenvector_future.ttf";
