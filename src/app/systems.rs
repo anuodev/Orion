@@ -37,9 +37,9 @@ pub fn set_window_icon(
     );
     let raw = image.data.clone();
 
-    if let Ok(icon) = Icon::from_rgba(raw, width, height) {
-        primary.set_window_icon(Some(icon));
-    }
+    let Ok(icon) = Icon::from_rgba(raw, width, height) else { return };
+
+    primary.set_window_icon(Some(icon));
 }
 
 pub fn set_background(
@@ -69,14 +69,13 @@ pub fn update_background_on_resize(
 ) {
     let window = window_query.get_single().unwrap();
     for _ in resize_events.read() {
-        if let Ok(mut sprite) = background_query.get_single_mut() {
-            sprite.custom_size = Some(window.size());
-            println!(
-                "Updated background size to: {}x{}",
-                window.width(),
-                window.height()
-            );
-        }
+        let Ok(mut sprite) = background_query.get_single_mut() else { return; };
+        sprite.custom_size = Some(window.size());
+        println!(
+            "Updated background size to: {}x{}",
+            window.width(),
+            window.height()
+        );
     }
 }
 

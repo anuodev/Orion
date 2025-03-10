@@ -70,23 +70,23 @@ pub fn asteroid_collision(
     asteroid_query: Query<&Transform, With<Asteroid>>,
     asset_server: Res<AssetServer>,
 ) {
-    if let Ok((player_entity, player_transform)) = player_query.get_single_mut() {
-        for asteroid_transform in asteroid_query.iter() {
-            let distance = player_transform
-                .translation
-                .distance(asteroid_transform.translation);
-            let player_radius = PLAYER_SIZE / 2.0;
-            let asteroid_radius = ASTEROID_SIZE / 2.0;
+    let Ok((player_entity, player_transform)) = player_query.get_single_mut() else { return; };
+    
+    for asteroid_transform in asteroid_query.iter() {
+        let distance = player_transform
+            .translation
+            .distance(asteroid_transform.translation);
+        let player_radius = PLAYER_SIZE / 2.0;
+        let asteroid_radius = ASTEROID_SIZE / 2.0;
 
-            if distance < player_radius + asteroid_radius {
-                println!("Player hit !");
-                commands.spawn((
-                    AudioPlayer::new(asset_server.load(SFX_GAMEOVER)),
-                    PlaybackSettings::ONCE,
-                ));
-                commands.entity(player_entity).despawn();
-                game_over_event_writer.send(GameOver { score: 0 });
-            }
+        if distance < player_radius + asteroid_radius {
+            println!("Player hit !");
+            commands.spawn((
+                AudioPlayer::new(asset_server.load(SFX_GAMEOVER)),
+                PlaybackSettings::ONCE,
+            ));
+            commands.entity(player_entity).despawn();
+            game_over_event_writer.send(GameOver { score: 0 });
         }
     }
 }
