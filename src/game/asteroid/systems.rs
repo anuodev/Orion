@@ -1,5 +1,4 @@
 use super::components::Asteroid;
-use super::resources::AsteroidSpawnTimer;
 use crate::config::*;
 use crate::events::GameOver;
 use crate::game::player::components::Player;
@@ -7,15 +6,16 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use rand::Rng;
 
-fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &AssetServer) {
+pub fn spawn_asteroid(commands: &mut Commands, window: &Window, asset_server: &AssetServer) {
     let mut rng = rand::thread_rng();
     commands.spawn((
         Transform {
             translation: Vec3::new(
-                rng.gen_range(-1.0..=1.0) * window.width(),
+                rng.gen_range(-0.95..=0.95) * window.width(),
                 window.height(),
                 0.0,
             ),
+            rotation: Quat::from_rotation_z(rng.gen_range(0.0..=10.0)),
             ..default()
         },
         Sprite {
@@ -41,21 +41,6 @@ pub fn asteroid_startup(
     );
 }
 
-pub fn asteroid_spawn_over_time(
-    mut commands: Commands,
-    window_query: Query<&Window, With<PrimaryWindow>>,
-    asset_server: Res<AssetServer>,
-    asteroid_spawn_timer: Res<AsteroidSpawnTimer>,
-) {
-    if asteroid_spawn_timer.timer.finished() {
-        spawn_asteroid(
-            &mut commands,
-            window_query.get_single().unwrap(),
-            &asset_server,
-        );
-    }
-}
-
 pub fn asteroid_movement(mut asteroid_query: Query<(&mut Transform, &Asteroid)>, time: Res<Time>) {
     for (mut transform, asteroid) in asteroid_query.iter_mut() {
         let direction = Vec3::new(asteroid.direction.x, asteroid.direction.y, 0.0);
@@ -71,7 +56,7 @@ pub fn asteroid_collision(
     asset_server: Res<AssetServer>,
 ) {
     let Ok((player_entity, player_transform)) = player_query.get_single_mut() else { return; };
-    
+
     for asteroid_transform in asteroid_query.iter() {
         let distance = player_transform
             .translation
@@ -104,11 +89,4 @@ pub fn asteroid_lifetime(
             println!("Asteroid {:?} despawned!", asteroid_entity);
         }
     }
-}
-
-pub fn asteroid_tick_spawn_timer(
-    mut asteroid_spawn_timer: ResMut<AsteroidSpawnTimer>,
-    time: Res<Time>,
-) {
-    asteroid_spawn_timer.timer.tick(time.delta());
 }
